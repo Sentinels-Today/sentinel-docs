@@ -1,0 +1,36 @@
+# Trust scoring
+
+Trust is a deterministic function of observable device state. Identical inputs always produce identical scores — no model drift, no opaque ML.
+
+## Formula
+
+```text
+score = 50
+if firmware_verified:            score += 10
+score += min(20, telemetry_count * 5)
+if anomaly_detected:             score -= 20
+if key_rotated_within_7_days:    score += 5
+if heartbeat_count > 168:        score += 10
+elif heartbeat_count > 24:       score += 5
+score = clamp(0, 100, score)
+```
+
+## Levels
+
+| Range | Level |
+|---|---|
+| 0–20 | critical |
+| 21–40 | low |
+| 41–60 | medium |
+| 61–80 | high |
+| 81–100 | verified |
+
+## Implementations
+
+The same formula is shipped in:
+
+- Rust: `sentinel-trust::compute`
+- TypeScript: `computeTrust` in `@sentinels/sdk`
+- Cloud server: `src/trust.ts` in `sentinel-cloud`
+
+All three are exercised by their own unit tests with identical fixtures.

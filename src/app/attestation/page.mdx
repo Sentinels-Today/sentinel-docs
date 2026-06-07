@@ -1,0 +1,38 @@
+# Attestation
+
+Devices submit **claims** about themselves: firmware hash, measured-boot PCR digest, software bill of materials, or custom payloads.
+
+## Claim body
+
+```ts
+type ClaimBody = {
+  kind: "firmware_hash" | "measured_boot" | "software_bom" | "custom";
+  subject: string;       // did:sentinel:...
+  issued_at: string;     // ISO-8601 UTC
+  nonce: string;
+  payload: unknown;
+};
+```
+
+## Canonical-JSON digest
+
+Claims are signed over a canonical-JSON serialization — keys sorted lexicographically, no whitespace. This guarantees byte-for-byte agreement between the Rust core, the TypeScript SDK, and the cloud server regardless of how their JSON libraries order keys.
+
+```text
+digest = SHA256(canonical_json(claim_body))
+signature = ed25519_sign(secret_key, digest_preimage)
+```
+
+## Submitting a claim
+
+```bash
+curl -X POST http://localhost:8787/v1/attestations \
+  -H 'content-type: application/json' \
+  -d '{
+    "body": { "kind": "firmware_hash", "subject": "did:sentinel:...", "issued_at": "...", "nonce": "1", "payload": {"sha256": "abc..."} },
+    "signature_hex": "...",
+    "public_key_hex": "..."
+  }'
+```
+
+A successful claim is appended to the device's hash-chained audit log.

@@ -1,0 +1,25 @@
+# Device identity
+
+Every Sentinel-managed device has an **Ed25519 keypair** and a deterministic decentralized identifier:
+
+```text
+did:sentinel:<sha256(public_key) as hex>
+```
+
+The DID is derived from the public key alone, so two implementations of the spec produce identical identifiers for the same device.
+
+## Algorithm
+
+```text
+DID_PREFIX = "did:sentinel:"
+DID = DID_PREFIX || lowercase_hex(SHA256(ed25519_public_key))
+```
+
+Reference implementations:
+
+- Rust: `sentinel-identity::Did::from_public_key`
+- TypeScript: `didFromPublicKey` in `@sentinels/sdk`
+
+## Why deterministic?
+
+Knowing only the public key, anyone can recompute the DID and verify that an inbound signature actually belongs to the registered device. The registry never has to store the DID separately — it's a byproduct of the key material.

@@ -1,0 +1,43 @@
+# Getting started
+
+Spin up a local Sentinel stack in a few commands.
+
+## 1. Start the cloud
+
+```sh
+git clone https://github.com/Sentinels-Today/sentinel-cloud
+cd sentinel-cloud
+npm install
+npm run dev
+# server: http://localhost:8787
+```
+
+## 2. Provision a device
+
+```sh
+git clone https://github.com/Sentinels-Today/sentinel-agent
+cd sentinel-agent
+cargo run -- whoami         # generates a key file + prints the DID
+cargo run -- register       # registers the device with sentinel-cloud
+cargo run -- heartbeat      # sends a signed telemetry event
+cargo run -- attest --sha256 deadbeef00...
+cargo run -- trust          # fetches the current trust score
+```
+
+## 3. Inspect from the operator CLI
+
+```sh
+cargo install --git https://github.com/Sentinels-Today/sentinel-cli
+sentinel device did:sentinel:...
+sentinel audit did:sentinel:...
+```
+
+## 4. View the dashboard
+
+```sh
+git clone https://github.com/Sentinels-Today/sentinel-dashboard
+cd sentinel-dashboard
+npm install
+npm run dev
+# UI: http://localhost:3000
+```
