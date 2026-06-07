@@ -1,6 +1,6 @@
 # sentinel-docs
 
-**Documentation portal for Sentinel Labs.** Next.js 14 + `@next/mdx` static site with five reference pages covering the trust stack.
+**Documentation portal for Sentinels.** Next.js 14 + `@next/mdx` static site with five reference pages covering the trust stack.
 
 [![ci](https://github.com/Sentinels-Today/sentinel-docs/actions/workflows/ci.yml/badge.svg)](https://github.com/Sentinels-Today/sentinel-docs/actions/workflows/ci.yml)
 ![license](https://img.shields.io/badge/license-Apache--2.0-blue)

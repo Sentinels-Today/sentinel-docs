@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Sentinels Docs",
-  description: "Documentation for the Sentinel Labs trust stack.",
+  description: "Documentation for the Sentinels trust stack.",
 };
 
 const NAV = [
